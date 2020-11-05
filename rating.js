@@ -78,6 +78,13 @@ StarRating.prototype = {
     updateMessage: function(message) {
         this.messageHelper.innerHTML = message
     },
+    reset: function(resetTo) {
+        resetTo = resetTo || 0,
+        this.active && (this.active.classList.remove("active"),
+        this.active = null),
+        this.setRating(resetTo),
+        this.setMessage(this.messageHelper && this.getData(this.messageHelper, "text"))
+    },
     getData: function(element, name) {
         return element.dataset ? element.dataset[name] : element.getAttribute('data-' + name)
     },
