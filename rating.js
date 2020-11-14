@@ -3,17 +3,21 @@ var StarRating = function(element, options) {
     this.element = element;
     this.options = options;
     this.active = this.element.querySelector('.active');
-    this.messageHelper = this.element.querySelector('[data-rating-helper]');
-    this.rating = 0;
+    this.rating = this.options.initialRating ? this.options.initialRating : 0;
+    this.starClass = this.options.starClass ? this.options.starClass : 'star';
     this.message = '';
+    if (this.options.messageHelperSelector) {
+        this.messageHelper = this.element.querySelector(this.options.messageHelperSelector);
+    }
+    if (this.messageHelper) {
+        this.message = this.getData(this.messageHelper, 'text');
+    }
     this.init();
 };
 StarRating.prototype = {
     init: function() {
-        this.updateRating();
-        this.saveRating();
+        this.setRating(this.rating);
         this.setUpListeners();
-        this.setRating(this.options.rating ? this.options.rating : 0);
     },
     setUpListeners: function() {
         var t = this;
@@ -23,13 +27,13 @@ StarRating.prototype = {
             }
             t.updateMessage(t.getData(e.target, 'text'));
         }
-        function add() {
+        function add(e) {
             if (t.active) {
                 t.active.classList.add('active');
             }
             t.updateMessage(t.message);
         }
-        this.element.querySelectorAll('.star').forEach(function(element) {
+        this.element.querySelectorAll("." + this.starClass).forEach(function(element) {
             element.addEventListener('mouseenter', remove);
             element.addEventListener('mouseleave', add);
         });
@@ -47,43 +51,59 @@ StarRating.prototype = {
         element.classList.add('active');
         this.active = element;
         this.setMessage(this.getData(this.active, 'text'));
-        this.updateRating();
+        this.updateRating(Number(this.getData(this.active, 'value')));
         this.saveRating();
     },
-    updateRating: function() {
-        if (this.active) {
-            this.rating = this.getData(this.active, 'value')
-        }
+    updateRating: function(value) {
+        this.rating = value
     },
     setRating: function(value) {
         var t = this;
         if (value > 0) {
-            this.element.querySelectorAll('.star').forEach(function(element) {
+            this.element.querySelectorAll("." + this.starClass).forEach(function(element) {
                 if (parseInt(t.getData(element, 'value')) === value) {
                     t.setActive(element)
                 }
             });
-            this.rating = value;
             this.setMessage(this.getData(this.active, "text"));
-            this.saveRating()
+        }else {
+            this.updateRating(value);
+            this.saveRating();
         }
     },
-    saveRating: function() {
-        this.element.querySelector('input').value = this.rating
+    saveRating: function(target) {
+        var input;
+        if (target) {
+            input = document.querySelector(target);
+        }
+        else {
+            input = this.element.querySelector('input');
+        }
+        if (input) {
+            input.value = this.rating.toString();
+            this.rating > 0 ? input.checked = true : input.checked = false
+        }
     },
     setMessage: function(message) {
         this.message = message;
         this.updateMessage(this.message);
     },
     updateMessage: function(message) {
-        this.messageHelper.innerHTML = message
+        if (this.messageHelper) {
+            this.messageHelper.innerHTML = message;
+        }
     },
-    reset: function(resetTo) {
-        resetTo = resetTo || 0,
-        this.active && (this.active.classList.remove("active"),
-        this.active = null),
-        this.setRating(resetTo),
-        this.setMessage(this.messageHelper && this.getData(this.messageHelper, "text"))
+    reset: function(resetTo){
+        resetTo = (resetTo || 0);
+        if (this.active) {
+            this.active.classList.remove('active');
+            this.active = null;
+        }
+        if (this.messageHelper) {
+            this.setMessage(this.getData(this.messageHelper, "text"));
+        }
+
+        this.setRating(resetTo);
     },
     getData: function(element, name) {
         return element.dataset ? element.dataset[name] : element.getAttribute('data-' + name)
@@ -92,6 +112,8 @@ StarRating.prototype = {
         element.dataset ? element.dataset[name] = value : element.setAttribute('data-' + name, value)
     }
 };
+
+
 +function($) {
     "use strict";
     function Plugin($option) {
