@@ -69,7 +69,7 @@ class StarRating {
         if (this.active) {
             this.active.classList.remove('active');
         }
-        element!.classList.add('active');
+        element.classList.add('active');
         this.active = element;
         this.setMessage(this.getData(this.active as HTMLElement, 'text'));
         this.updateRating();
