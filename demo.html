@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Star Rating Demo</title>
+	<style>
+		.rating-component {
+		  line-height: 1;
+		}
+		.rating-component + input {
+			display: none;
+		}
+		.rating-component .rating-label {
+		  font-size: 1rem;
+		}
+		.rating-component .rating-info-text {
+		  color: #6c757d;
+		  margin-left: 5px;
+		  vertical-align: middle;
+		  display: inline-block;
+		}
+		@media (max-width: 575.98px) {
+		  .rating-component .rating-info-text {
+		    display: block;
+		  }
+		}
+		.rating-component .rating {
+		  direction: rtl;
+		  font-size: 0;
+		  unicode-bidi: bidi-override;
+		  white-space: nowrap;
+		  vertical-align: middle;
+      display: inline-block;
+		}
+		.rating-component .rating .star {
+		  padding: 0;
+		  cursor: pointer;
+		  display: inline-block;
+		  font-style: normal;
+		  font-weight: normal;
+		  border: none;
+		  background-color: transparent;
+		  vertical-align: middle;
+		  color: #e8ebee;
+		}
+		.rating-component .rating .star:focus, 
+		.rating-component .rating .star:active, 
+		.rating-component .rating .star:hover {
+		  outline: none;
+		}
+		.rating-component .rating .star > svg {
+		  fill: currentColor;
+		  stroke: currentColor;
+		  pointer-events: none;
+		}
+		@media (max-width: 575.98px) {
+		  .rating-component .rating .star > svg {
+		    width: 48px;
+		    height: 48px;
+		  }
+		}
+		.rating-component .rating .star:hover > svg,
+		.rating-component .rating .star:active > svg,
+		.rating-component .rating .star.active > svg,
+		.rating-component .rating .star.active ~ .star > svg,
+		.rating-component .rating .star:hover ~ .star > svg,
+		.rating-component .rating .star:active ~ .star:active > svg,
+		.rating-component .rating .star.active ~ .star.active > svg {
+		  fill: #FFAF4A;
+		  stroke: #FFAF4A;
+		}
+		@media (max-width: 575.98px) {
+		  .rating-component {
+		    text-align: center;
+		  }
+		}
+	</style>
+</head>
+<body>
+	
+<div id="rating-component">
+	<div class="rating-component">
+		<span class="rating rating-primary">
+
+			<button type="button" class="star" data-value="5" data-text="Excellent">
+				<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="#DDDDDD" stroke="#DDDDDD" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+				<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+				</svg>
+			</button>
+			<button type="button" class="star" data-value="4" data-text="Good">
+				<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="#DDDDDD" stroke="#DDDDDD" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+				<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+				</svg>
+			</button>
+			<button type="button" class="star" data-value="3" data-text="Convenient">
+				<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="#DDDDDD" stroke="#DDDDDD" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+				<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+				</svg>
+			</button>
+			<button type="button" class="star" data-value="2" data-text="Bad">
+				<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="#DDDDDD" stroke="#DDDDDD" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+				<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+				</svg>
+			</button>
+			<button type="button" class="star" data-value="1" data-text="Worst ever!">
+				<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="#DDDDDD" stroke="#DDDDDD" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+				<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+				</svg>
+			</button>
+			
+		</span>
+		<span class="rating-info-text" data-text="Acorda o nota">Acorda o nota</span>
+	</div>
+	<input type="hidden" name="rating" required>
+
+</div>
+<script type="text/javascript" src="rating.js"></script>
+<script>
+	var startRating = new StarRating(document.querySelector('#rating-component'), {
+		messageHelperSelector: '.rating-info-text',
+	});
+</script>
+</body>
+</html>
