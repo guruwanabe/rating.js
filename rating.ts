@@ -128,7 +128,7 @@ class StarRating {
     /**
      * Updates the UI with the given message
      */
-    updateMessage(message?:string):void {
+    updateMessage(message:string):void {
         if(this.messageHelper){
             this.messageHelper.innerHTML = message!
         }
